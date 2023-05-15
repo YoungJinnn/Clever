@@ -14,8 +14,10 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import TopW from "components/Common/TopW";
+import { useSnackbar } from 'notistack';
 
 const Login = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [cookies, setCookie] = useCookies(["loginkey"]);
   const navigate = useNavigate();
   const [login, setLogin] = useState({
@@ -29,32 +31,30 @@ const Login = () => {
     setLogin(changeLogin);
   };
 
-  const handleClickLogin = () => {
-    const data = {
-      userInfo: {
-        ID: "1",
-        Password: "2",
-      },
-    };
-
-    axios
-      .post("api/login", data)
-      .then((response) => {
-        console.log(response);
-        if (response.data.login === false) {
-          alert("아이디와 비밀번호를 다시 확인해주세요");
-        } else {
-          if (response.data.Status) {
-            navigate("/senior", { state: response.data });
-          } else {
-            navigate("/junior", { state: response.data });
-          }
+  const handleClickLogin = async () => {
+    const formData = new FormData();
+    formData.append('username', login.id);
+    formData.append('password', login.password);
+    const config = {
+        headers: {
+            "content-type": "multipart.form-data"
         }
-      })
-      .catch((Error) => {
+    }
+    await axios.post("/http://141.223.175.213:17000/auth/login", formData, config).then((res) => {
+        if (res.data.login === false) {
+            enqueueSnackbar(`아이디/비밀번호를 다시 확인해주세요`, { variant: 'error' });
+        }
+        else if (res.data.login === true) {
+            enqueueSnackbar('로그인을 환영합니다', { variant: 'info' });
+            setCookie("loginkey", res.data.Id, { path: '/' });
+            navigate('/main/home')
+        }
+    }).catch((Error) => {
         console.log(Error);
-      });
-  };
+    })
+};
+
+  
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -73,7 +73,7 @@ const Login = () => {
           sx={{ width: 500, maxWidth: "100%" }}
         >
           <TextField
-            placeholder="이메일 주소 또는 아이디"
+            placeholder="포비스 아이디를 입력해주세요"
             value={login.id}
             name="id"
             onChange={handleChangeLogin}
@@ -88,7 +88,7 @@ const Login = () => {
           sx={{ width: 500, maxWidth: "100%" }}
         >
           <TextField
-            placeholder="패쓰워드"
+            placeholder="비밀번호를 입력해주세요"
             type={showPassword ? "text" : "password"}
             value={login.password}
             name="password"

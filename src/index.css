@@ -268,3 +268,9 @@ button {
     border-radius : 15px;
 }
 
+.Nav_title{
+    font-size: 10px;
+    font-weight: 700;
+    flex-direction: row;
+    justify-content: center;
+}

@@ -15,19 +15,17 @@ const Nav = () => {
   const [currentPath, setcurrentPath] = useState("home");
 
   const getCurrentPath = () => {
-    if (router.pathname.includes("/schedule")) {
+    if (router.pathname.includes("/spload")) {
+      setcurrentPath("upload");
+    } else if (router.pathname.includes("/schedule")) {
       setcurrentPath("schedule");
-    } else if (router.pathname.includes("/mypage")) {
-      setcurrentPath("profile");
-    } else if (router.pathname.includes("/setting")) {
-      setcurrentPath("setting");
     } else {
       setcurrentPath("home");
     }
   };
 
   const handleClick = (props) => {
-    const baseRoute = router.pathname.includes("senior") ? "senior" : "junior";
+    const baseRoute = "Main";
     const detailRoute = props;
     window.location.href = `/${baseRoute}/${detailRoute}`;
   };
@@ -39,29 +37,29 @@ const Nav = () => {
   return (
     <StNav>
       <StIconWrapper>
-        <StIconBtn onClick={() => handleClick("")}>
+        <div>
+        <StIconBtn onClick={() => handleClick("home")}>
           <img
             src={currentPath === "home" ? activeHome : inactiveHome}
             alt="홈"
           />
+          <div className="Nav_title">홈</div>  
+        </StIconBtn>
+        
+        </div>
+        <StIconBtn onClick={() => handleClick("upload")}>
+          <img
+            src={currentPath === "upload" ? activeProfile : inactiveProfile}
+            alt="내 홍보물"
+          />
+          <div className="Nav_title">업로드</div> 
         </StIconBtn>
         <StIconBtn onClick={() => handleClick("schedule")}>
           <img
             src={currentPath === "schedule" ? activeSchedule : inactiveSchedule}
-            alt="일정"
+            alt="내 활동"
           />
-        </StIconBtn>
-        <StIconBtn onClick={() => handleClick("mypage")}>
-          <img
-            src={currentPath === "profile" ? activeProfile : inactiveProfile}
-            alt="프로필"
-          />
-        </StIconBtn>
-        <StIconBtn onClick={() => handleClick("setting")}>
-          <img
-            src={currentPath === "setting" ? activeSetting : inactiveSetting}
-            alt="설정"
-          />
+          <div className="Nav_title">내 일정</div> 
         </StIconBtn>
       </StIconWrapper>
     </StNav>
@@ -86,14 +84,14 @@ const StNav = styled.div`
 const StIconWrapper = styled.div`
   display: flex;
 
-  gap: 60px;
+  gap: 80px;
   margin: 12px;
 `;
 
 const StIconBtn = styled.div`
   & > img {
     width: 22px;
-    height: 42px;
+    height: 22px;
     border-radius: 0px;
   }
 `;
