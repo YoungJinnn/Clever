@@ -125,7 +125,7 @@ const Upload = () => {
               </h2>
               <EssayQuestion 
                 pname='selfintro'
-                question="자기소개서 입력"
+                question="=입력"
                 changeEssayHandler={handleChangeProgramData}/>
             </Grid>
             <Grid item container xs={10} md={9} lg={8} style={{ display: 'flex', flexDirection: 'column'}}>
@@ -149,7 +149,7 @@ const Upload = () => {
               <div id="image_container"></div>
             </Grid>
             <Grid item container xs={10} md={9} lg={8} justifyContent='right'>
-              <Button color='warning' variant="contained" style={{marginTop: '15px', height: '32px', width: '180px', fontWeight: '500', fontSize: '14px'}}>자기소개서 등록</Button>
+              <Button color='warning' variant="contained" style={{marginTop: '15px', height: '32px', width: '180px', fontWeight: '500', fontSize: '14px'}}>등록</Button>
             </Grid>
           </Grid>
       </section>
